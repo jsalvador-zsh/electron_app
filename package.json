@@ -1,0 +1,61 @@
+{
+  "name": "zkteco-desktop",
+  "version": "1.0.0",
+  "description": "Sistema de Asistencia Biometrica ZKTeco - Gestion de planillas y asistencia",
+  "main": "main.js",
+  "author": "Gomaflex",
+  "license": "MIT",
+  "scripts": {
+    "start": "set ELECTRON_RUN_AS_NODE=&& electron .",
+    "build": "electron-builder --win",
+    "build:dir": "electron-builder --win --dir"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "node-zklib": "^1.3.0",
+    "remixicon": "^4.9.1",
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.gomaflex.zkteco-desktop",
+    "productName": "ZKTeco Desktop",
+    "copyright": "Gomaflex",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerLanguages": [
+        "es_ES"
+      ],
+      "language": "3082",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "ZKTeco Desktop"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "renderer/**/*",
+      "assets/**/*",
+      "node_modules/**/*"
+    ]
+  }
+}

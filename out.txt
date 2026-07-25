@@ -1,0 +1,2 @@
+
+Database ready at: C:\Users\Administrator\AppData\Roaming\zkteco-desktop\zkteco.db

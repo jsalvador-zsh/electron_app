@@ -1,0 +1,2 @@
+[3452:0503/182752.839:ERROR:CONSOLE(1)] "Request Autofill.enable failed. {"code":-32601,"message":"'Autofill.enable' wasn't found"}", source: devtools://devtools/bundled/core/protocol_client/protocol_client.js (1)
+[3452:0503/182756.393:ERROR:CONSOLE(1)] "Uncaught (in promise) TypeError: Failed to fetch", source: devtools://devtools/bundled/panels/elements/elements.js (1)

@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e ' *)",
+      "Bash(node --check src/database.js)",
+      "Bash(node --check src/ipc.js)",
+      "Bash(node --check preload.js)",
+      "Bash(node --check renderer/views/employees.js)",
+      "Bash(node --check renderer/views/attendance.js)",
+      "Bash(node -e \"require\\('exceljs'\\); console.log\\('exceljs OK'\\)\")",
+      "Bash(node -e \"require\\('sql.js'\\); console.log\\('sql.js OK'\\)\")"
+    ]
+  }
+}

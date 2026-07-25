@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; font-src 'self' data:;">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZKTeco Desktop</title>
+  <link rel="stylesheet" href="../node_modules/remixicon/fonts/remixicon.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- ── Sidebar ─────────────────────────────────────────────────── -->
+  <aside id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="ri-fingerprint-2-line"></i>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">ZKTeco</span>
+        <span class="brand-sub">Desktop Pro</span>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item active" data-view="dashboard">
+        <i class="nav-icon ri-dashboard-line"></i>
+        <span>Dashboard</span>
+      </a>
+      <a class="nav-item" data-view="employees">
+        <i class="nav-icon ri-team-line"></i>
+        <span>Empleados</span>
+      </a>
+      <a class="nav-item" data-view="attendance">
+        <i class="nav-icon ri-time-line"></i>
+        <span>Asistencias</span>
+      </a>
+      <a class="nav-item" data-view="reports">
+        <i class="nav-icon ri-file-chart-line"></i>
+        <span>Planillas</span>
+      </a>
+      <a class="nav-item" data-view="devices">
+        <i class="nav-icon ri-router-line"></i>
+        <span>Dispositivos</span>
+      </a>
+      <a class="nav-item" data-view="settings">
+        <i class="nav-icon ri-settings-3-line"></i>
+        <span>Configuración</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div id="status-dot" class="status-dot idle"></div>
+      <span id="status-text">Listo</span>
+    </div>
+  </aside>
+
+  <!-- ── Main ──────────────────────────────────────────────────────── -->
+  <div id="main-wrap">
+    <header id="topbar">
+      <div id="breadcrumb">Dashboard</div>
+      <div class="topbar-actions">
+        <button id="btn-quick-sync" class="btn btn-primary btn-sm" title="Sincronizar dispositivos">
+          <i class="ri-refresh-line"></i>
+          Sincronizar
+        </button>
+        <button id="btn-version" class="btn btn-ghost btn-sm">v1.0.0</button>
+      </div>
+    </header>
+
+    <main id="view-container">
+      <!-- Views rendered by JS -->
+    </main>
+  </div>
+</div>
+
+<!-- ── Toast ───────────────────────────────────────────────────────── -->
+<div id="toast-container"></div>
+
+<!-- ── Modal ──────────────────────────────────────────────────────── -->
+<div id="modal-backdrop" class="hidden"></div>
+<div id="modal-container" class="hidden"></div>
+
+<!-- ── Scripts ────────────────────────────────────────────────────── -->
+<script src="views/dashboard.js"></script>
+<script src="views/employees.js"></script>
+<script src="views/attendance.js"></script>
+<script src="views/reports.js"></script>
+<script src="views/devices.js"></script>
+<script src="views/settings.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
