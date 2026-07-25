@@ -61,10 +61,7 @@ function setupIPC(ipcMain) {
       try {
         win?.webContents.send('sync:log', { level: 'info', msg: `Conectando a ${device.name} (${device.ip})...` });
 
-        const deviceUsers = await zkteco.getUsers(device).catch(() => []);
-        const nameMap = {};
-        for (const u of deviceUsers) nameMap[String(u.user_id)] = u.name;
-
+        // Single connection for attendance — employee names come from existing DB records
         const records = await zkteco.downloadAttendance(device, timezone, params.dateFrom, params.dateTo);
         win?.webContents.send('sync:log', { level: 'info', msg: `${device.name}: ${records.length} registros descargados` });
 
@@ -72,7 +69,11 @@ function setupIPC(ipcMain) {
         totalDownloaded += records.length;
         totalNew        += newCount;
 
+        // Upsert employees from existing DB names (no extra device connection needed)
         const uniqueIds = [...new Set(records.map(r => String(r.user_id)))];
+        const existingEmployees = db.getEmployees(true);
+        const nameMap = {};
+        for (const e of existingEmployees) nameMap[e.zk_id] = e.name;
         for (const uid of uniqueIds) {
           db.upsertEmployee({ zk_id: uid, device_id: device.id, name: nameMap[uid] || `Usuario ${uid}` });
         }
@@ -80,8 +81,8 @@ function setupIPC(ipcMain) {
         db.addSyncLog({
           device_id:          device.id,
           device_name:        device.name,
-          date_from:          params.dateFrom,
-          date_to:            params.dateTo,
+          date_from:          params.dateFrom||'',
+          date_to:            params.dateTo||'',
           records_downloaded: records.length,
           records_new:        newCount,
           status:             'ok',
@@ -90,7 +91,13 @@ function setupIPC(ipcMain) {
         win?.webContents.send('sync:log', { level: 'success', msg: `${device.name}: ${newCount} nuevos guardados` });
         results.push({ device: device.name, downloaded: records.length, new: newCount });
       } catch (err) {
-        const errMsg = (err && (err.message || String(err))) || 'Error desconocido';
+        const errMsg = (typeof err === 'string') ? err
+          : err?.message
+          || err?.err?.message
+          || err?.err?.code
+          || (err?.toast ? err.toast() : null)
+          || (err ? JSON.stringify(err) : null)
+          || 'Error desconocido';
         win?.webContents.send('sync:log', { level: 'error', msg: `${device.name}: ERROR - ${errMsg}` });
         db.addSyncLog({ device_id: device.id, device_name: device.name, date_from: params.dateFrom||'', date_to: params.dateTo||'', status: 'error', error: errMsg });
         results.push({ device: device.name, error: errMsg });
