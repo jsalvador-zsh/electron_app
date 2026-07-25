@@ -48,7 +48,7 @@ async function downloadAttendance(device, timezone, dateFrom, dateTo) {
     await zk.createSocket();
     const { data: attendances } = await zk.getAttendances();
 
-    let records = (attendances || []).map(a => ({
+    let records = (attendances || []).filter(a => a && a.deviceUserId && a.recordTime).map(a => ({
       user_id:         String(a.deviceUserId),
       timestamp_local: formatDate(a.recordTime),
       timestamp_utc:   toUTC(a.recordTime, timezone),

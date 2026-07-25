@@ -90,9 +90,10 @@ function setupIPC(ipcMain) {
         win?.webContents.send('sync:log', { level: 'success', msg: `${device.name}: ${newCount} nuevos guardados` });
         results.push({ device: device.name, downloaded: records.length, new: newCount });
       } catch (err) {
-        win?.webContents.send('sync:log', { level: 'error', msg: `${device.name}: ERROR - ${err.message}` });
-        db.addSyncLog({ device_id: device.id, device_name: device.name, status: 'error', error: err.message });
-        results.push({ device: device.name, error: err.message });
+        const errMsg = (err && (err.message || String(err))) || 'Error desconocido';
+        win?.webContents.send('sync:log', { level: 'error', msg: `${device.name}: ERROR - ${errMsg}` });
+        db.addSyncLog({ device_id: device.id, device_name: device.name, date_from: params.dateFrom||'', date_to: params.dateTo||'', status: 'error', error: errMsg });
+        results.push({ device: device.name, error: errMsg });
       }
     }
 
